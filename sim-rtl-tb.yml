@@ -1,0 +1,75 @@
+# Specify Global Variables
+simClockPeriod : &SIM_CLK_PERIOD "CLOCK_PERIOD=3.00"
+simOptions: &SIM_OPTIONS
+  - "-notice"
+  - "-line"
+  - "+lint=all,noVCDE,noONGS,noUI"
+  - "+warn=noTMR"
+  - "-error=PCWM-L"
+  - "+v2k"
+  - "-debug"
+  - "+vcs+lic+wait"
+  - "+vcs+initreg+random"
+  - "+define+no_cache_mem"
+  - "+rad"
+  - "-quiet"
+  - "+define+DEBUG"
+  - "+incdir+../../src"
+  - "-sverilog"
+
+simVerilogSrc: &SIM_VERILOG_SRC
+  - "src/BranchPrediction/BranchPredictor.v"
+  - "src/BranchPrediction/BranchChecker.v"
+  - "src/BranchPrediction/PCSel.v"
+  - "src/Execute/ALU.v"
+  - "src/Execute/ALUdec.v"
+  - "src/Execute/ASel.v"
+  - "src/Execute/BSel.v"
+  - "src/Execute/AddrFwd.v"
+  - "src/Execute/DataFwd.v"
+  - "src/Execute/BranchComp.v"
+  - "src/Execute/BrUn.v"
+  - "src/Execute/StageX.v"
+  - "src/FetchDecode/AFwd.v"
+  - "src/FetchDecode/BFwd.v"
+  - "src/FetchDecode/ImmGen.v"
+  - "src/FetchDecode/RegFileArray.v"
+  - "src/FetchDecode/StageFD.v"
+  - "src/Memory/LdSel.v"
+  - "src/Memory/LoadExtender.v"
+  - "src/Memory/MemRW.v"
+  - "src/Memory/StageM.v"
+  - "src/Writeback/RegWEn.v"
+  - "src/Writeback/StageW.v"
+  - "src/Writeback/WBSel.v"
+  - "src/Writeback/CSRSel.v"
+  - "src/Riscv151.v"
+  - "src/Memory151.v"
+  - "src/ExtMemModel.v"
+  - "src/no_cache_mem.v"
+  - "src/riscv_top.v"
+  - "src/riscv_arbiter.v"
+  - "src/riscv_test_harness.v"
+  - "src/Riscv151_testbench.v"
+  - "/home/ff/eecs151/verilog_lib/EECS151.v"
+  - "/home/ff/eecs151/verilog_lib/SRAM.v"
+  # Add more files here if you need
+
+# Toggle these to choose which file to run the testbench with.
+
+#tb_name: &TB_NAME "BranchCompTestbench"
+#tb_name: &TB_NAME "RegFileTestBench"
+tb_name: &TB_NAME "Riscv151_testbench"
+#tb_name: &TB_NAME "rocketTestHarness"
+
+# RTL Simulation Variables
+sim.inputs:
+  input_files: *SIM_VERILOG_SRC
+  timescale:   "1ns/1ps"
+  options:     *SIM_OPTIONS
+  top_module:  *TB_NAME
+  tb_name:     *TB_NAME
+  defines: 
+    - *SIM_CLK_PERIOD
+  execute_sim: false
+

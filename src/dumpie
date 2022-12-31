@@ -1,0 +1,105 @@
+<main>:
+    addi	x2,x0,-32
+    sw	x1,28(x2)
+    sw	x8,24(x2)
+    addi	x8,x2,32
+    sw	x0,-20(x8)
+    j	<main+0x44>
+<main+0x18>:
+    lw	x15,-20(x8)
+    addi	x14,x15,1
+    auipc	x13,0x0
+    addi	x13,x13,344 # 2178 <x>
+    lw	x15,-20(x8)
+    slli	x15,x15,0x2
+    add	x15,x13,x15
+    sw	x14,0(x15)
+    lw	x15,-20(x8)
+    addi	x15,x15,1
+    sw	x15,-20(x8)
+<main+0x44>:
+    lw	x14,-20(x8)
+    li	x15,1023
+    bge	x15,x14, <main+0x18> 
+    sw	x0,-20(x8)
+    j	<main+0xe8>
+<main+0x58>:
+    auipc	x14,0x1
+    addi	x14,x14,288 # 3178 <y>
+    lw	x15,-20(x8)
+    slli	x15,x15,0x2
+    add	x15,x14,x15
+    sw	x0,0(x15)
+    sw	x0,-24(x8)
+    j	<main+0xd0>
+<main+0x78>:
+    auipc	x14,0x1
+    addi	x14,x14,256 # 3178 <y>
+    lw	x15,-20(x8)
+    slli	x15,x15,0x2
+    add	x15,x14,x15
+    lw	x14,0(x15)
+    auipc	x13,0x0
+    addi	x13,x13,232 # 2178 <x>
+    lw	x15,-24(x8)
+    slli	x15,x15,0x2
+    add	x15,x13,x15
+    lw	x15,0(x15)
+    add	x14,x14,x15
+    auipc	x13,0x1
+    addi	x13,x13,204 # 3178 <y>
+    lw	x15,-20(x8)
+    slli	x15,x15,0x2
+    add	x15,x13,x15
+    sw	x14,0(x15)
+    lw	x15,-24(x8)
+    addi	x15,x15,1
+    sw	x15,-24(x8)
+<main+0xd0>:
+    lw	x14,-20(x8)
+    lw	x15,-24(x8)
+    bge	x14,x15,<main+0x78>
+    lw	x15,-20(x8)
+    addi	x15,x15,1
+    sw	x15,-20(x8)
+<main+0xe8>:
+    lw	x14,-20(x8)
+    li	x15,1023
+    bge	x15,x14, <main+0x58>
+    auipc	x14,0x1
+    addi	x14,x14,132 # 3178 <y>
+    lui	x15,0x1
+    add	x15,x14,x15
+    lw	x15,-4(x15) # ffc <main-0x1004>
+    mv	x14,x15
+    lui	x15,0x80
+    addi	x11,x15,512 # 80200 <y+0x7d088>
+    mv	x10,x14
+    jal	x1, <assert_equals>
+    mv	x15,x10
+    beqz	x15,<main+0x130>
+    li	x15,1
+    addi x31, x0, 0x51e
+    j	<main+0x138>
+<main+0x130>:
+    li	x15,2
+    addi x31, x0, 0x51e
+<main+0x138>:
+    nop
+    j	<main+0x138>
+
+<assert_equals>:
+    addi	x2,x2,-32
+    sw	x8,28(x2)
+    addi	x8,x2,32
+    sw	x10,-20(x8)
+    sw	x11,-24(x8)
+    lw	x14,-20(x8)
+    lw	x15,-24(x8)
+    sub	x15,x14,x15
+    seqz	x15,x15
+    andi	x15,x15,255
+    mv	x10,x15
+    lw	x8,28(x2)
+    addi	x2,x2,32
+    ret

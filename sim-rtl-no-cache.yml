@@ -1,0 +1,82 @@
+# Specify Global Variables
+simClockPeriod : &SIM_CLK_PERIOD "CLOCK_PERIOD=3.00"
+simOptions: &SIM_OPTIONS
+  - "-notice"
+  - "-line"
+  - "+lint=all,noVCDE,noONGS,noUI"
+  - "+warn=noTMR"
+  - "-error=PCWM-L"
+  - "+v2k"
+  - "-debug"
+  - "+vcs+lic+wait"
+  - "+vcs+initreg+random"
+  - "+define+no_cache_mem"
+  - "+rad"
+  - "-quiet"
+  - "+define+DEBUG"
+  - "+incdir+../../src-nocache"
+  - "-sverilog"
+
+simVerilogSrc: &SIM_VERILOG_SRC
+  - "src-nocache/BranchPrediction/BranchPredictor.v"
+  - "src-nocache/BranchPrediction/BranchChecker.v"
+  - "src-nocache/BranchPrediction/Flusher.v" 
+  - "src-nocache/BranchPrediction/PCSel.v"
+  
+  - "src-nocache/FetchDecode/AFwd.v"
+  - "src-nocache/FetchDecode/BFwd.v"
+  - "src-nocache/FetchDecode/ImmGen.v"
+  - "src-nocache/FetchDecode/RegFileArray.v"
+  - "src-nocache/FetchDecode/StageFD.v"
+
+  - "src-nocache/Execute/AddrFwd.v"
+  - "src-nocache/Execute/ALU.v"
+  - "src-nocache/Execute/ALUdec.v"
+  - "src-nocache/Execute/ASel.v"
+  - "src-nocache/Execute/BranchAFwd.v"
+  - "src-nocache/Execute/BranchBFwd.v"
+  - "src-nocache/Execute/BranchComp.v"
+  - "src-nocache/Execute/BrUn.v"
+  - "src-nocache/Execute/BSel.v"
+  - "src-nocache/Execute/DataFwd.v"
+  - "src-nocache/Execute/StageX.v"
+  - "src-nocache/Execute/StoreFormatter.v"
+
+  - "src-nocache/Memory/LdSel.v"
+  - "src-nocache/Memory/LoadExtender.v"
+  - "src-nocache/Memory/MemRW.v"
+  - "src-nocache/Memory/StageM.v"
+
+  - "src-nocache/Writeback/CSRSel.v"
+  - "src-nocache/Writeback/RegWEn.v"
+  - "src-nocache/Writeback/StageW.v"
+  - "src-nocache/Writeback/WBSel.v"
+  
+  - "src-nocache/Riscv151-nocache.v"
+  - "src-nocache/Memory151.v"
+  - "src-nocache/ExtMemModel.v"
+  - "src-nocache/no_cache_mem.v"
+  - "src-nocache/riscv_top.v"
+  - "src-nocache/riscv_arbiter.v"
+  - "src-nocache/riscv_test_harness.v"
+  - "src-nocache/Riscv151_testbench.v"
+
+  - "/home/ff/eecs151/verilog_lib/EECS151.v"
+  - "/home/ff/eecs151/verilog_lib/SRAM.v"
+
+
+
+tb_name: &TB_NAME "Riscv151_testbench"
+#tb_name: &TB_NAME "rocketTestHarness"
+
+# RTL Simulation Variables
+sim.inputs:
+  input_files: *SIM_VERILOG_SRC
+  timescale:   "1ns/1ps"
+  options:     *SIM_OPTIONS
+  top_module:  *TB_NAME
+  tb_name:     *TB_NAME
+  defines: 
+    - *SIM_CLK_PERIOD
+  execute_sim: false
+
